@@ -19,14 +19,18 @@ def webhook():
     data = request.json
     event = {}
 
-    # Parse Push Event
+    # ✅ Handle ping event from GitHub
+    if request.headers.get('X-GitHub-Event') == 'ping':
+        return jsonify({"message": "Ping received"}), 200
+
+    # ✅ Parse Push Event
     if 'commits' in data:
         event['type'] = 'push'
         event['author'] = data['pusher']['name']
         event['from_branch'] = data['ref'].split('/')[-1]
         event['timestamp'] = datetime.now(pytz.utc)
 
-    # Parse Pull Request Event
+    # ✅ Parse Pull Request Event
     elif 'pull_request' in data:
         event['type'] = 'pull_request'
         event['author'] = data['pull_request']['user']['login']
@@ -52,5 +56,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 # test webhook trigger
 # webhook test line 2
+# Triggering webhook test
+
 
 
