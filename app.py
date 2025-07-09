@@ -53,7 +53,8 @@ def data():
     return jsonify(events)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, use_reloader=False)
+
 # test webhook trigger
 # webhook test line 2
 # Triggering webhook test
